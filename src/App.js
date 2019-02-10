@@ -31,30 +31,29 @@ class App extends Component {
     var index2 = Math.floor(Math.random()*jokes.length);
     this.state = {
       wisdom: wisdoms[index],
-      wisdomLS: wisdoms,
       joke: jokes[index2]
     };
-    console.log(this.wisdomLS);
     this.setRandomWisdom = this.setRandomWisdom.bind(this);
-    this.setIntervalWisdom = this.setIntervalWisdom(this);
+    // this.setIntervalWisdom = this.setIntervalWisdom(this);
     this.addWisdom = this.addWisdom.bind(this);
-
     this.setRandomJoke = this.setRandomJoke.bind(this);
+
+    setInterval(this.setRandomWisdom, 1500);
   }
 
-  setIntervalWisdom(){
-    var index = Math.floor(Math.random()*wisdoms.length);
-
-    setInterval(()=>{
-    this.setState({
-       wisdom:wisdoms[index]
-    });
-    index++
-    if(index >= wisdoms.length){
-      index = index-wisdoms.length;
-     }
-    }, 15000);
-  }
+  // setIntervalWisdom(){
+  //   var index = Math.floor(Math.random()*wisdoms.length);
+  //
+  //   setInterval(()=>{
+  //   this.setState({
+  //      wisdom:wisdoms[index]
+  //   });
+  //   index++
+  //   if(index >= wisdoms.length){
+  //     index = index-wisdoms.length;
+  //    }
+  //   }, 15000);
+  // }
   setRandomWisdom() {
     var index = Math.floor(Math.random() * wisdoms.length);
 
@@ -82,44 +81,41 @@ class App extends Component {
       wisdomLS: wisdoms
     })
   }
-  
+
   removeCurrentWisdom() {
     var index = wisdoms.lengths-1;
     wisdoms.splice(index, 1);
-    //this.setState({
-      // wisdomLS: wisdoms
-    //})
   }
-  
+
   render() {
+    let listOfWisdoms = [];
+    for(var i = 0; i < wisdoms.length; i++){
+        if(i<3){
+            listOfWisdoms.push(<li>{wisdoms[wisdoms.length-1-i]}</li>);
+        }
+    }
     return (
       <div className="App">
-	<div className="wisdomsState1">
- 		{this.state.wisdom}
-	</div>
-		{this.setIntervalWisdom}
-        <button className="more" onClick={this.setRandomWisdom}>AnotherWisdom</button>
-	<button className="new-wisdom" onClick={this.addWisdom}>New Wisdom</button>
-	<div className="box1">
-	  <div className="wisdomsState2">
-	   <div> 
-		{this.state.wisdomLS[wisdoms.length-3]}
-	   </div>
-	   <div>
-		{this.state.wisdomLS[wisdoms.length-2]}
-	   </div>
-	   <div>
-		{this.state.wisdomLS[wisdoms.length-1]}
-	   </div>
-	  </div>
-	</div>
-	<div className="box2">
-	 <div className="jokeState">
-	  {this.state.joke}
-	 </div>
-	</div>
-	<button className="moreJoke" onClick={this.setRandomJoke}>AnotherJokes</button>
-      </div>
+        	<div className="wisdomsState1">
+         		{this.state.wisdom}
+        	</div>
+          <button className="more" onClick={this.setRandomWisdom}>AnotherWisdom</button>
+        	<button className="new-wisdom" onClick={this.addWisdom}>New Wisdom</button>
+
+          <div className="box1">
+        	  <div className="wisdomsState2">
+                {listOfWisdoms}
+             </div>
+        	</div>
+
+        	<div className="box2">
+          	 <div className="jokeState">
+            	  {this.state.joke}
+          	  </div>
+
+          	  <button className="moreJoke" onClick={this.setRandomJoke}>AnotherJokes</button>
+          </div>
+       </div>
     );
   }
 }
